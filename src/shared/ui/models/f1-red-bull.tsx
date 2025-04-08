@@ -8,44 +8,85 @@ Title: Oracle Red Bull F1 Car RB19 2023
 */
 'use client';
 
-import * as THREE from 'three'
+import { useGLTF } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
+import React, { JSX, useRef } from 'react';
+import type { Group } from 'three';
+import * as THREE from 'three';
+import { GLTFExporter } from 'three-stdlib';
 
-import React, { JSX } from 'react'
-
-import { GLTF } from 'three-stdlib'
-import { useGLTF } from '@react-three/drei'
-
-type GLTFResult = GLTF & {
-  nodes: {
-    Object_4: THREE.Mesh
-    Object_5: THREE.Mesh
-    Object_6: THREE.Mesh
-    Object_7: THREE.Mesh
-    Object_8: THREE.Mesh
-    Object_9: THREE.Mesh
-    Object_10: THREE.Mesh
-  }
-  materials: {
-    Full_Body_Baked: THREE.MeshPhysicalMaterial
-  }
-  // animations: GLTFAction[]
-}
+type GLTFResult = GLTFExporter & {
+	nodes: {
+		Object_4: THREE.Mesh;
+		Object_5: THREE.Mesh;
+		Object_6: THREE.Mesh;
+		Object_7: THREE.Mesh;
+		Object_8: THREE.Mesh;
+		Object_9: THREE.Mesh;
+		Object_10: THREE.Mesh;
+	};
+	materials: {
+		Full_Body_Baked: THREE.MeshPhysicalMaterial;
+	};
+	// animations: GLTFAction[]
+};
 
 export function F1RedBull(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/assets/models/f1-car/oracle_red_bull_f1_car_rb19_2023.glb') as unknown as GLTFResult
-  return (
-    <group {...props} dispose={null}>
-      <group position={[0, 0.138, 0.324]}>
-        <mesh geometry={nodes.Object_4.geometry} material={materials.Full_Body_Baked} />
-        <mesh geometry={nodes.Object_5.geometry} material={materials.Full_Body_Baked} />
-        <mesh geometry={nodes.Object_6.geometry} material={materials.Full_Body_Baked} />
-        <mesh geometry={nodes.Object_7.geometry} material={materials.Full_Body_Baked} />
-        <mesh geometry={nodes.Object_8.geometry} material={materials.Full_Body_Baked} />
-        <mesh geometry={nodes.Object_9.geometry} material={materials.Full_Body_Baked} />
-        <mesh geometry={nodes.Object_10.geometry} material={materials.Full_Body_Baked} />
-      </group>
-    </group>
-  )
+	const groupRef = useRef<Group>(null);
+
+	const { nodes, materials } = useGLTF(
+		'/assets/models/f1-car/oracle_red_bull_f1_car_rb19_2023.glb'
+	) as unknown as GLTFResult;
+
+	// Анимация в каждом кадре
+	useFrame((state) => {
+		if (!groupRef.current) return;
+
+		const time = state.clock.getElapsedTime();
+
+		// Плавное вертикальное движение (подпрыгивание)
+		groupRef.current.position.y = Math.sin(time * 2) * 0.05;
+
+		// Вращение вокруг своей оси
+		groupRef.current.rotation.y = time * 0.5;
+
+		// Дополнительное легкое покачивание
+		groupRef.current.rotation.z = Math.sin(time * 3) * 0.02;
+	});
+	return (
+		<group ref={groupRef} {...props} dispose={null}>
+			<group position={[0, 0.138, 0.324]}>
+				<mesh
+					geometry={nodes.Object_4.geometry}
+					material={materials.Full_Body_Baked}
+				/>
+				<mesh
+					geometry={nodes.Object_5.geometry}
+					material={materials.Full_Body_Baked}
+				/>
+				<mesh
+					geometry={nodes.Object_6.geometry}
+					material={materials.Full_Body_Baked}
+				/>
+				<mesh
+					geometry={nodes.Object_7.geometry}
+					material={materials.Full_Body_Baked}
+				/>
+				<mesh
+					geometry={nodes.Object_8.geometry}
+					material={materials.Full_Body_Baked}
+				/>
+				<mesh
+					geometry={nodes.Object_9.geometry}
+					material={materials.Full_Body_Baked}
+				/>
+				<mesh
+					geometry={nodes.Object_10.geometry}
+					material={materials.Full_Body_Baked}
+				/>
+			</group>
+		</group>
+	);
 }
 
-useGLTF.preload('/assets/models/f1-car/oracle_red_bull_f1_car_rb19_2023.glb')
+useGLTF.preload('/assets/models/f1-car/oracle_red_bull_f1_car_rb19_2023.glb');

@@ -1,0 +1,16 @@
+{
+	"trailingComma": "none",
+	"tabWidth": 2,
+	"useTabs": true,
+	"semi": true,
+	"singleQuote": true,
+	"jsxSingleQuote": true,
+	"endOfLine": "auto",
+	"printWidth": 80,
+	"prettier/prettier": [
+		"error",
+		{
+			"endOfLine": "auto"
+		}
+	]
+}

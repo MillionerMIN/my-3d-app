@@ -6,24 +6,28 @@ License: CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 Source: https://sketchfab.com/3d-models/nike-air-zoom-pegasus-36-00fd99e778c244c3bd3b65f99dad7cb2
 Title: Nike Air Zoom Pegasus 36
 */
-'use client'
+'use client';
 
-import * as THREE from 'three'
-
-import React, { JSX } from 'react'
-
-import { useGLTF } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei';
+import React, { JSX } from 'react';
+import * as THREE from 'three';
 
 export function Shoe(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/assets/models/nike_air_zoom_pegasus_36-transformed.glb')
-  const shoeMesh = nodes['defaultMaterial'] as THREE.Mesh
-  return (
-    <group {...props} dispose={null}>
-      <group rotation={[-Math.PI / 2, 0, 0]}>
-        <mesh geometry={shoeMesh.geometry} material={materials.NikeShoe} rotation={[Math.PI / 2, 3, 0]} />
-      </group>
-    </group>
-  )
+	const { nodes, materials } = useGLTF(
+		'/assets/models/nike_air_zoom_pegasus_36-transformed.glb'
+	);
+	const shoeMesh = nodes['defaultMaterial'] as THREE.Mesh;
+	return (
+		<group {...props} dispose={null}>
+			<group rotation={[-Math.PI / 2, 0, 0]}>
+				<mesh
+					geometry={shoeMesh.geometry}
+					material={materials.NikeShoe}
+					rotation={[Math.PI / 2, 3, 0]}
+				/>
+			</group>
+		</group>
+	);
 }
 
-useGLTF.preload('/assets/models/nike_air_zoom_pegasus_36-transformed.glb')
+useGLTF.preload('/assets/models/nike_air_zoom_pegasus_36-transformed.glb');
